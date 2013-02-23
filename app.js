@@ -40,6 +40,12 @@ var io = socketio.listen(server);
 
 io.sockets.on('connection', function (socket) {
     proc.stdout.on('data', function(data) {
-        socket.emit('data', data.toString('utf8', 0, data.length-1))
+        var rawdata = data.toString('utf8', 0, data.length-1)
+        var ports = rawdata.split('\n');
+        var ret = [];
+        for (idx in ports) {
+            ret.push(ports[idx].split(' '));
+        }
+        console.log(ret);
     });
 });
