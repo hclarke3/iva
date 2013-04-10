@@ -8,7 +8,7 @@
   "dependencies": {
     "express": "3.1.0",
     "jade": "*",
-    "eventduino": "*",
+    "eventduino": "git://github.com/hclarke3/EventDuino.git",
     "socket.io": "*"
   }
 }
