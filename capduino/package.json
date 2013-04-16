@@ -1,0 +1,15 @@
+{
+  "author": "Hunter Clarke",
+  "name": "capduino",
+  "description": "Evented Capsense for Arduino in Node.js",
+  "keywords": [ "arduino", "evented", "sketch" ],
+  "version": "0.0.1",
+  "repository": {
+    "git": ""
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "dependencies": {
+    "serialport": "*"
+  }
+}

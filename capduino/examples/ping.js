@@ -1,0 +1,1 @@
+var capduino = require('../lib/index.js');
