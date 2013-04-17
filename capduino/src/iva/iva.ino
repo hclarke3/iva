@@ -1,5 +1,5 @@
-#define NUMSENSORS 1
-#define BAUDRATE   9600
+#define NUMSENSORS 3
+#define BAUDRATE   115200
 
 #define INIT       "00"
 #define ERROR      "01"
@@ -19,6 +19,8 @@
 #include <cstring>
 #include <CapacitiveSensor.h>
 
+HardwareSerial bt = HardwareSerial();
+
 struct capsensor {
   int isActivated;
   int sendPin;
@@ -31,8 +33,10 @@ int sensorsSet = 0;
 capsensor sensors[NUMSENSORS];
 
 void setup () {
-  Serial.begin(BAUDRATE);
-  Serial.println();
+  //Serial.begin(BAUDRATE);
+  //Serial.println();
+  bt.begin(BAUDRATE);
+  bt.println();
   write(INIT, NULL, 0, "");
 }
 
@@ -79,7 +83,7 @@ void read () {
   static int index = 0;
   static int count = 0;
 
-  while (Serial.available() > 0 && count < 10) {
+  while (bt.available() > 0 && count < 10) {
     if (index >= MAX_BUFFER) {
       char *data[1];
 
@@ -92,7 +96,7 @@ void read () {
       return;
     }
 
-    buffer[index] = Serial.read();
+    buffer[index] = bt.read();
 
     if (buffer[index] == '\n') {
       buffer[index] = '\0';
@@ -114,7 +118,7 @@ void read () {
 void write (char *command, char *args[], int count, char *comment) {
   int i;
 
-  Serial.write(command);
+  /*Serial.write(command);
 
   if (args && count) {
     for (i = 0; i < count; i++) {
@@ -130,34 +134,60 @@ void write (char *command, char *args[], int count, char *comment) {
     Serial.write(comment);
   }
 
-  Serial.write("\n");
+  Serial.write("\n");*/
+
+  bt.write(command);
+
+  if (args && count) {
+    for (i = 0; i < count; i++) {
+      bt.write(":");
+      bt.print(strlen(args[i]));
+      bt.write(":");
+      bt.write(args[i]);
+    }
+  }
+
+  if (comment) {
+    bt.write("#");
+    bt.write(comment);
+  }
+
+  bt.write("\n");
 }
 
 /*
  * Args:
- * receivePin
  * sendPin
+ * receivPin
  */
-void cmd_watch_cap (char args[], int count) {
+void cmd_watch_cap (char *args[], int count) {
   capsensor sensor;
 
+  /*Serial.println("Args:");
+  Serial.println(args[0]);
+  Serial.println(args[1]);
+  Serial.println("Done");*/
+
+  /*bt.println("Args:");
+  bt.println(args[0]);
+  bt.println(args[1]);
+  bt.println("Done");*/
+
   sensor.isActivated = 1;
-  sensor.receivePin = args[0]; //31
-  sensor.sendPin = args[1]; //33
+  sensor.sendPin = atoi(args[0]); //31
+  sensor.receivePin = atoi(args[1]); //33
 
-  CapacitiveSensor s = CapacitiveSensor(args[0], args[1]);
+  CapacitiveSensor s = CapacitiveSensor(sensor.sendPin, sensor.receivePin);
   sensor.sensor = &s;
-
-  Serial.println("Args:");
-  for (int i=0; i<count; i++) {
-    Serial.println(args[i]);
-  }
-  Serial.println("Done");
 
   sensors[sensorsSet] = sensor;
   sensorsSet = sensorsSet + 1;
 
   write(OK, NULL, 0, NULL);
+}
+
+void cmd_ping (char *args[], int count) {
+  write(PONG, NULL, 0, NULL);
 }
 
 // parse the packet and execute the commands
@@ -232,13 +262,11 @@ void execute (char *buffer) {
 
           // allocate and copy the argument now that we have the size
           args[count] = (char *) malloc(sizeof(char) * (atoi(ssize) + 1));
-
           for (i = pos; i < pos + atoi(ssize); i++) {
             args[count][i - pos] = buffer[i];
           }
 
           args[count][i - pos] = '\0';
-
           count++;
           pos += atoi(ssize) - 1;
         }
@@ -259,9 +287,10 @@ void execute (char *buffer) {
       pos++;
     }
 
-
     if (strcmp(command, WATCHCAP) == 0) {
-      cmd_watch_cap(*args, count);
+      cmd_watch_cap(args, count);
+    } else if (strcmp(command, PING) == 0) {
+      cmd_ping(args, count);
     } else {
       char *data[2];
 

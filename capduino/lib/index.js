@@ -8,7 +8,7 @@ var capduino = function(options) {
 
 	options = options || { };
 	options.serialport = options.serialport || "/dev/tty-usbserial1";
-	options.baudrate = options.baudrate || "115200";
+	options.baudrate = options.baudrate || 115200;
 
 	self.INIT       = "00";
 	self.ERROR      = "01";
@@ -101,6 +101,10 @@ var capduino = function(options) {
 		self.emit('init', args, comment);
 		break;
 
+	case self.PONG:
+		self.emit('pong', args, comment);
+		break;
+
 	case self.GET:
 		self.emit('get', args, comment);
 		break;
@@ -135,14 +139,18 @@ var capduino = function(options) {
 		}
 
 		packet += "\n";
-		//console.log(packet);
 		self.sp.write(packet);
 	};
 
-	self.watchcap = function(receivePin, sendPin) {
-		self.send(self.WATCHCAP, [receivePin, sendPin]);
-	}
 
+	self.watchcap = function(sendPin, receivePin) {
+		console.log('Sending watchap');
+		self.send(self.WATCHCAP, [sendPin, receivePin]);
+	};
+
+	self.ping = function() {
+		self.send(self.PING, []);
+	};
 };
 
 util.inherits(capduino, events.EventEmitter);

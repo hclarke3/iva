@@ -1,10 +1,8 @@
 $(function() {
 	var socket = io.connect('http://localhost');
-	socket.on('data', function (data) {
+	socket.on('data', function (packet) {
 		var par = document.createElement('p');
-		for (d in data) {
-			$(par).append(data[d]+', ');
-		}
+		$(par).append(packet.key+': '+packet.val);
 		$('body').prepend(par);
 	});
 });
