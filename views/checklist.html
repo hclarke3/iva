@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>IVA </title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css">
+		<!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />-->
+		<link href="/stylesheets/bootstrap-responsive.css" rel="stylesheet">
+		<link href="/stylesheets/hunters-styles.css" rel="stylesheet">
+		<script src="/javascripts/jquery-1.9.1.js"></script>
+		<script src="/javascripts/jquery-ui.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+	</head>
+
+	<body>
+
+		<div class="navbar navbar-inverse navbar-fixed-top top-nav">
+			<div class="navbar-inner">
+				<div class="container">
+					<a href="/"><img src="/images/logo.png"></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="container main">
+			<div class="title row">
+				<div class="text-center" style="float: none;">
+					<h1>CHECKLIST</h1>
+				</div>
+			</div>
+
+			<div class="mainbox">
+				<div class="row" id="tasktype">
+					<p class="text-center checklist-title">
+						STS-135 Flight Supplement: EMU Removal
+					</p>
+				</div>
+				<div class="row">
+					<div class="text-center progressbar">
+						<div class="background-bar"></div>
+						<img src="/images/1icon.png" class="progress-icon" id="littlecheck1">
+						<img src="/images/2icon.png" class="progress-icon" id="littlecheck2">
+						<img src="/images/3icon.png" class="progress-icon" id="littlecheck3">
+						<img src="/images/4icon.png" class="progress-icon" id="littlecheck4">
+					</div>
+				</div>
+
+				<div class="row">
+					<div id="instructionSet" class="carousel slide">
+						<!-- Carousel items -->
+						<div class="carousel-inner">
+							<div class="active item">
+								<div class="togglebox" id="instruct1">
+									<p class="text-center">
+										<img src="/images/blue1icon.png">
+										As required, install gloves
+										<img src="/images/select-big.png" class="bigcheck hide" id="bigcheck1" height="10%">
+									</p>
+								</div>
+							</div>
+							<div class="item text-center">
+								<div class="togglebox" id="instruct2">
+									<p class="text-center">
+										<img src="/images/blue2icon.png">
+										As required, perform LTA Restraint Strap Installation
+										<img src="/images/select-big.png" class="bigcheck hide" id="bigcheck2">
+									</p>
+								</div>
+							</div>
+							<div class="item text-center">
+								<div class="togglebox" id="instruct3">
+									<p class="text-center">
+										<img src="/images/blue3icon.png">
+										As required, relocate LTA spring hooks (four) from AAP rings to SAFER mount
+								brackets.
+										<img src="/images/select-big.png" class="bigcheck hide" id="bigcheck3">
+									</p>
+								</div>
+							</div>
+							<div class="item text-center">
+								<div class="togglebox" id="instruct4">
+									<p class="text-center">
+										<img src="/images/blue4icon.png">
+										Disconnect EMUs from AAPs, stow in middeck.
+										<img src="/images/select-big.png" class="bigcheck hide" id="bigcheck4">
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<footer>
+				<div class="navbar navbar-inverse navbar-fixed-bottom bottom-nav">
+					<div class="navbar-inner">
+						<div class="container">
+							<div class="row" id="footbar">
+								<div class="span2 offset1 prevItem">
+									<center><img src="/images/arrow-left.png">
+									</center>
+								</div>
+								<div class="span2 offset2 selectItem">
+									<center><img src="/images/select.PNG">
+									</center>
+								</div>
+								<div class="span2 offset2 nextItem">
+									<center><img src="/images/arrow-right.png">
+									</center>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+		</footer>
+
+		<script src="/javascripts/bootstrap-transition.js"></script>
+		<script src="/javascripts/bootstrap-alert.js"></script>
+		<script src="/javascripts/bootstrap-modal.js"></script>
+		<script src="/javascripts/bootstrap-dropdown.js"></script>
+		<script src="/javascripts/bootstrap-scrollspy.js"></script>
+		<script src="/javascripts/bootstrap-tab.js"></script>
+		<script src="/javascripts/bootstrap-tooltip.js"></script>
+		<script src="/javascripts/bootstrap-popover.js"></script>
+		<script src="/javascripts/bootstrap-button.js"></script>
+		<script src="/javascripts/bootstrap-collapse.js"></script>
+		<script src="/javascripts/bootstrap-carousel.js"></script>
+		<script src="/javascripts/bootstrap-typeahead.js"></script>
+		<script src="/javascripts/jquery.transit.min.js"></script>
+		<script src="/javascripts/script.js"></script>
+		<script type="text/javascript">
+			$(function() {
+        var socket = io.connect('http://localhost');
+
+				$('#instructionSet').carousel({
+					interval : 0
+				});
+
+				$('.nextItem').click(function(event) {
+					nextItem('#instructionSet');
+				});
+
+				$('.selectItem').click(function(event) {
+					toggleComplete();
+				});
+
+				$('.prevItem').click(function(event) {
+					prevItem('#instructionSet');
+				});
+
+				socket.on('action', function (action){
+
+				  switch(action) {
+				    case 'left':
+				      prevItem('#instructionSet');
+				      break;
+				    case 'select':
+				      toggleComplete();
+				      break;
+				    case 'right':
+				      nextItem('#instructionSet');
+				      break;
+				    case 'home':
+				    	window.location.href = '/';
+				    	break;
+				  };
+
+				});
+			});
+		</script>
+	</body>
+</html>

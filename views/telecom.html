@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>IVA </title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css">
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+		<link href="/stylesheets/bootstrap-responsive.css" rel="stylesheet">
+		<link href="/stylesheets/hunters-styles.css" rel="stylesheet">
+
+		<script src="/javascripts/jquery-1.9.1.js"></script>
+		<script src="/javascripts/jquery-ui.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+	</head>
+
+	<body>
+
+		<div class="navbar navbar-inverse navbar-fixed-top top-nav">
+			<div class="navbar-inner">
+				<div class="container">
+					<a href="/"><img src="/images/logo.png"></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="container main">
+			<div class="title row">
+				<div class="text-center" style="float: none;">
+					<h2>TELECOM</h2>
+				</div>
+			</div>
+			<div class="mainbox">
+				<div class="row">
+					<div id="contactSet" class="carousel slide">
+						<!-- Carousel items -->
+						<div class="carousel-inner">
+							<div class="active item app-icon">
+                            	<center>
+                                <img src="/images/progress-telecom-1.png" style="width:12%"> <br><br><img src="/images/eric.jpg" style="width:30%;">
+								  <h2>Eric K Chiu</h2>
+								</center>
+                            </div>
+
+                 	    	<div class="item app-icon">
+                            	<center>
+									<img src="/images/progress-telecom-2.png" style="width:12%"> <br><br><img src="/images/hunter.jpg" style="width:30%;">
+									<h2>Hunter Clarke</h2>
+								</center>
+                            </div>
+
+                            <div class="item app-icon">
+                            	<center>
+                                <img src="/images/progress-telecom-3.png" style="width:12%"> <br><br>
+									<img src="/images/bala.jpg" style="width:30%;">
+									<h2>Balasubramanyam Ganapathi</h2>
+								</center>
+                            </div>
+
+
+							<div class="item app-icon">
+								<center>
+                                <img src="/images/progress-telecom-4.png" style="width:12%"> <br><br>
+									<img src="/images/nikita.jpg" style="width:30%;">
+									<h2>Xiao "Nikita" Xiong</h2>
+								</center>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<footer>
+				<div class="navbar navbar-inverse navbar-fixed-bottom bottom-nav">
+					<div class="navbar-inner">
+						<div class="container">
+							<div class="row" id="footbar">
+								<div class="span2 offset1 prevItem">
+									<center><img src="/images/arrow-left.png">
+									</center>
+								</div>
+								<div class="span2 offset2 selectItem">
+									<center><img src="/images/call.png">
+									</center>
+								</div>
+								<div class="span2 offset2 nextItem">
+									<center><img src="/images/arrow-right.png">
+									</center>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+		</footer>
+
+		<script src="/javascripts/bootstrap-transition.js"></script>
+		<script src="/javascripts/bootstrap-alert.js"></script>
+		<script src="/javascripts/bootstrap-modal.js"></script>
+		<script src="/javascripts/bootstrap-dropdown.js"></script>
+		<script src="/javascripts/bootstrap-scrollspy.js"></script>
+		<script src="/javascripts/bootstrap-tab.js"></script>
+		<script src="/javascripts/bootstrap-tooltip.js"></script>
+		<script src="/javascripts/bootstrap-popover.js"></script>
+		<script src="/javascripts/bootstrap-button.js"></script>
+		<script src="/javascripts/bootstrap-collapse.js"></script>
+		<script src="/javascripts/bootstrap-carousel.js"></script>
+		<script src="/javascripts/bootstrap-typeahead.js"></script>
+		<script src="/javascripts/jquery.transit.min.js"></script>
+		<script src="/javascripts/script.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				var socket = io.connect('http://localhost');
+				$('#contactSet').carousel({
+					interval : 0
+				});
+
+				$('.nextItem').click(function(event) {
+					nextItem('#contactSet');
+				});
+
+				$('.selectItem').click(function(event) {
+					selectContact();
+				});
+
+				$('.prevItem').click(function(event) {
+					prevItem('#contactSet');
+				});
+
+				socket.on('action', function (action){
+
+				  switch(action) {
+				    case 'left':
+				      prevItem('#contactSet');
+				      break;
+				    case 'select':
+				      selectContact();
+				      break;
+				    case 'right':
+				      nextItem('#contactSet');
+				      break;
+				    case 'home':
+				    	window.location.href = '/';
+				    	break;
+				  };
+
+				});
+			});
+		</script>
+	</body>
+</html>

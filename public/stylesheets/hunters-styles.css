@@ -1,0 +1,113 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+  background:url(/images/bg2.jpg);
+  -webkit-background-size: cover;
+				-moz-background-size: cover;
+				-o-background-size: cover;
+				background-size: cover;
+}
+
+.top-nav {
+  height: 10%;
+  width: 100%;
+}
+
+.top-nav img {
+  height: 100%;
+}
+
+.main {
+  position: absolute;
+  height: 85%;
+  width: 100%;
+  margin-top: 5%;
+  margin-bottom: 7%;
+}
+
+.title {
+  background-color:#2059a6;
+  color:#FFF;
+  margin-bottom: 15px
+}
+
+.title h2 {
+  padding: 5px;
+}
+
+.mainbox{
+	background-color:#000;
+	opacity:0.9;
+	height:70%;
+}
+
+.mainbox h2{
+	color:#FFF;
+	}
+
+#tasktype p {
+	color:#FFF;
+	line-height:30px;
+	font-size:30px;
+}
+
+.checklist-title {
+  padding: 0px;
+  padding-bottom:10px;
+  font-size: 20px;
+}
+
+.progressbar {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.background-bar {
+  border-top: 3px solid #ccc;
+  border-bottom: 3px solid #ccc;
+  position: relative;
+}
+
+.progress-icon {
+  position: relative;
+  margin-top: -29px;
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 50px;
+  height: 50px;
+}
+
+.togglebox {
+  background: #2059a6;
+  padding: 20px 0px;
+  color:#fff;
+  width:100%;
+  font-size:45px;
+  line-height:1.2em;
+  max-width:60%;
+  min-height:90%;
+  margin:auto;
+}
+
+.complete {
+  background-color:#0C9;
+  color:#FFF;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.bigcheck {
+  margin-top: .25em;
+  height: 2em;
+}
+
+.bottom-nav {
+  height: 15%;
+  width: 100%;
+}
+
+.bottom-nav img{
+  height: 100%;
+}

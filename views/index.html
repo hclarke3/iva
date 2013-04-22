@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>IVA </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+    <link href="/stylesheets/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/stylesheets/hunters-styles.css" rel="stylesheet">
+
+    <script src="/javascripts/jquery-1.9.1.js"></script>
+    <script src="/javascripts/jquery-ui.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top top-nav">
+      <div class="navbar-inner">
+        <div class="container">
+          <a href="/"><img src="/images/logo.png"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container main">
+      <div class="title row">
+        <div class="text-center" style="float: none;"><h2>HOME</h2></div>
+      </div>
+
+      <div class="row">
+      	<div id="applicationSet" class="carousel slide">
+      	  <!-- Carousel items -->
+      	  <div class="carousel-inner">
+      	    <div class="active item app-icon">
+      	    	<div class="app-icon text-center" id="checklist">
+      	    		<center>
+   	    		    <img style="height:10%" src="/images/progress-home-1.png"><br><img src="/images/checklisticon.png" width="25%"></center>
+      	    	</div>
+      	    </div>
+
+      	    <div class="item app-icon">
+      	    	<div class="app-icon text-center" id="telecom">
+      	    		<center><img style="height:10%" src="/images/progress-home-2.png"><br><img src="/images/telecomicon.png" width="25%"></center>
+      	    	</div>
+      	    </div>
+      	    <div class="item app-icon">
+      	    	<div class="app-icon text-center">
+      	    		<center><img style="height:10%" src="/images/progress-home-3.png"><br><img src="/images/emergencyicon.png" width="25%"></center>
+      	    	</div>
+      	    </div>
+      	  </div>
+      	</div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="navbar navbar-inverse navbar-fixed-bottom bottom-nav">
+        <div class="navbar-inner">
+          <div class="container">
+            <div class="row" id="footbar">
+              <div class="span2 offset1 prevItem">
+                <center><img src="/images/arrow-left.png"></center>
+              </div>
+              <div class="span2 offset2 selectItem">
+                <center><img src="/images/select.PNG"></center>
+              </div>
+              <div class="span2 offset2 nextItem">
+                <center><img src="/images/arrow-right.png"></center>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/javascripts/bootstrap-transition.js"></script>
+    <script src="/javascripts/bootstrap-alert.js"></script>
+    <script src="/javascripts/bootstrap-modal.js"></script>
+    <script src="/javascripts/bootstrap-dropdown.js"></script>
+    <script src="/javascripts/bootstrap-scrollspy.js"></script>
+    <script src="/javascripts/bootstrap-tab.js"></script>
+    <script src="/javascripts/bootstrap-tooltip.js"></script>
+    <script src="/javascripts/bootstrap-popover.js"></script>
+    <script src="/javascripts/bootstrap-button.js"></script>
+    <script src="/javascripts/bootstrap-collapse.js"></script>
+    <script src="/javascripts/bootstrap-carousel.js"></script>
+    <script src="/javascripts/bootstrap-typeahead.js"></script>
+    <script src="/javascripts/jquery.transit.min.js"></script>
+    <script src="/javascripts/script.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        var socket = io.connect('http://localhost');
+
+        $('#applicationSet').carousel({
+          interval: 0
+        });
+
+        $('.nextItem').click(function (event) {
+          nextItem('#applicationSet');
+        });
+
+        $('.selectItem').click(function (event) {
+          selectApplication();
+        });
+
+        $('.prevItem').click(function(event) {
+          prevItem('#applicationSet');
+        });
+
+        socket.on('action', function (action){
+
+          switch(action) {
+            case 'left':
+              prevItem('#applicationSet');
+              break;
+            case 'select':
+              selectApplication();
+              break;
+            case 'right':
+              nextItem('#applicationSet');
+              break;
+          };
+
+        });
+
+      });
+    </script>
+  </body>
+</html>
