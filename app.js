@@ -11,7 +11,7 @@ var express = require('express'),
     capduino = require('./capduino');
 
 var app = express();
-var threshold = 200;
+var threshold = 100;
 
 app.configure(function(){
     app.set('port', process.env.PORT || 3000);
